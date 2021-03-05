@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Query-DB-Hotel-08-03</title>
+</head>
+<body>
+    
+    <!-- INIZIO HEADER  -->
+    <header>
+        <h1>Query-DB-Hotel-08-03</h1>
+    </header>
+    <!-- FINE HEADER  -->
+
+    <!-- INIZIO MAIN  -->
+    <main>
+
+        <!-- PRIMA QUERY  -->
+        <div class="prima query">
+            <h4>1)Conta gli ospiti raggruppandoli per anno di nascita</h4>
+            <p> <strong>SELECT</strong> <span>YEAR(`date_of_birth`) AS `anno_nascita`, COUNT(id) AS `tot`</span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>GROUP BY</strong> <span>YEAR(`date_of_birth`)</span> </p>
+        </div>
+        <!-- FINE PRIMA QUERY -->
+
+        <!-- SECONDA QUERY -->
+        <div class="seconda query">
+            <h4>2)Somma i prezzi dei pagamenti raggruppandoli per status. (In totale ci sono 3 righe)</h4>
+            <p> <strong>SELECT</strong> <span>SUM(price) AS `Tot`, `status`</span> </p>
+            <p> <strong>FROM</strong> <span>`pagamenti`</span> </p>
+            <p> <strong>GROUP BY</strong> <span>`status`</span> </p>
+        </div>
+        <!--FINE SECONDA QUERY -->
+
+        <!-- TERZA QUERY  -->
+        <div class="terza query">
+            <h4>3)Conta quante volte è stata prenotata ogni stanza</h4>
+            <p> <strong>SELECT</strong> <span>`stanze`.`room_number` AS `Numero_stanza`, COUNT(`prenotazioni`.`id`) AS `Prenotazioni_tot`</span> </p>
+            <p> <strong>FROM</strong> <span>`stanze`</span> </p>
+            <p> <strong>LEFT JOIN</strong> <span>`prenotazioni`</span> </p>
+            <p> <strong>ON</strong> <span>`stanze`.`id` = `prenotazioni`.`stanza_id`</span> </p>
+            <p> <strong>GROUP BY</strong> <span>`stanze`.`id`</span> </p>
+        </div>
+        <!-- FINE TERZA QUERY -->
+
+        <!-- QUARTA QUERY  -->
+        <div class="quarta query">
+            <h4>4)Fai un’analisi per vedere se ci sono ore in cui le prenotazioni sono più frequenti.</h4>
+            <p> <strong>SELECT</strong> <span>HOUR(`created_at`) AS `Ora_prntz`, COUNT(HOUR(`created_at`)) AS `Frequenza_prntz`</span> </p>
+            <p> <strong>FROM</strong> <span>`prenotazioni`</span> </p>
+            <p> <strong>GROUP BY</strong> <span>`Ora_prntz`</span> </p>
+            <p> <strong>ORDER BY</strong> <span>`Frequenza_prntz` DESC</span> </p>
+        </div>
+        <!-- FINE QUARTA QUERY  -->
+
+        <!-- QUINTA QUERY -->
+        <div class="quinta query">
+            <h4>5)Stampare tutti gli ospiti per ogni prenotazione</h4>
+            <p> <strong>SELECT</strong> <span>`prenotazioni_has_ospiti`.`prenotazione_id` AS `ID_Prenotazione`, `ospiti`.`name`, `ospiti`.`lastname`<span> </p>
+            <p> <strong>FROM</strong> <span>`prenotazioni_has_ospiti`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`ospiti`</span>  </p>
+            <p> <strong>ON</strong> <span>`ospiti`.`id` = `prenotazioni_has_ospiti`.`ospite_id`</span>  </p>
+        </div>
+        <!-- FINE QUINTA QUERY -->
+
+        <!-- SESTA QUERY -->
+        <div class="sesta query">
+            <h4>6)Stampare Nome, Cognome, Prezzo del Pagante per tutte le prenotazioni fatte a Maggio 2018</h4>
+            <p> <strong>SELECT</strong> <span>`paganti`.`name`, `paganti`.`lastname`, `pagamenti`.`price`, `prenotazioni`.`created_at`<span> </p>
+            <p> <strong>FROM</strong> <span>`prenotazioni`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`pagamenti`</span> </p>
+            <p> <strong>ON</strong> <span>`pagamenti`.`prenotazione_id` = `prenotazioni`.`id`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`paganti`</span> </p>
+            <p> <strong>ON</strong> <span>`paganti`.`id` = `pagamenti`.`pagante_id`</span> </p>
+            <p> <strong>WHERE</strong> <span>MONTH(`prenotazioni`.`created_at`) = 05 AND  YEAR(`prenotazioni`.`created_at`) = 2018</span> </p>
+        </div>
+        <!-- FINE SESTA QUERY -->
+
+        <!-- SETTIMA QUERY -->
+        <div class="settima query">
+            <h4>7)Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano</h4>
+            <p> <strong>SELECT</strong> <span>SUM(`pagamenti`.`price`) AS `Prezzo_1°_piano`</span> </p>
+            <p> <strong>FROM</strong> <span>`prenotazioni`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`pagamenti`</span> </p>
+            <p> <strong>ON</strong> <span>`pagamenti`.`prenotazione_id` = `prenotazioni`.`id`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`stanze`</span> </p>
+            <p> <strong>ON</strong> <span> `stanze`.`id` = `prenotazioni`.`stanza_id`</span> </p>
+            <p> <strong>WHERE</strong> <span>`stanze`.`floor` = 1 </span> </p>
+        </div>
+        <!-- FINE SETTIMA QUERY -->
+
+        <!-- OTTAVA QUERY -->
+        <div class="ottava query">
+            <h4>8)Prendi i dati di fatturazione per la prenotazione con id=7</h4>
+            <p> <strong>SELECT</strong> <span>`paganti`.`name`, `paganti`.`lastname`, `paganti`.`address`, `pagamenti`.`status`,`pagamenti`.`price`<span> </p>
+            <p> <strong>FROM</strong> <span>`paganti`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`pagamenti`<span> </p>
+            <p> <strong>ON</strong> <span>`pagamenti`.`pagante_id` = `paganti`.`id` </span> </p>
+            <p> <strong>WHERE</strong> <span>`pagamenti`.`prenotazione_id` = 7</span> </p>
+        </div>
+        <!-- FINE OTTAVA QUERY -->
+
+        <h2>BONUS</h2>
+        <!-- PRIMO BONUS QUERY -->
+        <div class="primo_bonus query">
+            <h4>1)Come si chiamano gli ospiti che hanno fatto più di due prenotazioni?</h4>
+            <p> <strong>SELECT</strong> <span>COUNT(`prenotazioni_has_ospiti`.`ospite_id`) AS Tot_prenotazione , `ospiti`.`name`, `ospiti`.`lastname`  </span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>INNER JOIN</strong> <span>`prenotazioni_has_ospiti`</span> </p>
+            <p> <strong>ON</strong> <span>`prenotazioni_has_ospiti`.`ospite_id` = `ospiti`.`id`</span> </p>
+            <p> <strong>GROUP BY</strong> <span>`prenotazioni_has_ospiti`.`ospite_id`</span> </p>
+            <p> <strong>HAVING</strong> <span> Tot_prenotazione > 2</span> </p>
+        </div>
+        <!-- FINE PRIMO BONUS QUERY -->
+
+        <!-- SECONDO BONUS QUERY -->
+        <div class="secondo_bonus query">
+            <h4>2)Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate)</h4>
+            <p> <strong>SELECT</strong> <span>`stanze`.`room_number` AS `Numero_stanza`, COUNT(`prenotazioni`.`id`) AS `Prenotazioni_tot`</span> </p>
+            <p> <strong>FROM</strong> <span>`stanze`</span> </p>
+            <p> <strong>LEFT JOIN</strong> <span>`prenotazioni`</span> </p>
+            <p> <strong>ON</strong> <span>`stanze`.`id` = `prenotazioni`.`stanza_id`</span> </p>
+            <p> <strong>GROUP BY</strong> <span>`stanze`.`id`</span> </p>
+            <p> <strong>HAVING</strong> <span>`Prenotazioni_tot` = 0</span> </p>
+        </div>
+        <!-- FINE SECONDO BONUS QUERY -->
+
+    </main>
+    <!-- FINE INIZIO MAIN  -->
+
+    <!-- INIZIO FOOTER  -->
+    <footer>
+
+    </footer>
+    <!-- FINE FOOTER  -->
+
+</body>
+</html>

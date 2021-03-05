@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Query-DB-Hotel</title>
+</head>
+<body>
+    
+    <!-- INIZIO HEADER  -->
+    <header>
+        <h1>Query-DB-Hotel</h1>
+        <p>I 'RISULTATI' sono una mia aggiunta so che l'esercizio non li richiedeva</p>
+    </header>
+    <!-- FINE HEADER  -->
+
+    <!-- INIZIO MAIN  -->
+    <main>
+
+        <!-- PRIMA QUERY  -->
+        <div class="prima query">
+            <h4>1. Seleziona tutti gli ospiti che sono stati identificati con la carta di identità.</h4>
+            <p> <strong>SELECT</strong> <span>*</span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>WHERE</strong> <span>`document_type` = 'ci'</span> </p>
+            <p> <strong>RISULTATI</strong>: 15 Ospiti rispecchiano questi requisiti </p>
+        </div>
+        <!-- FINE PRIMA QUERY -->
+
+        <!-- SECONDA QUERY -->
+        <div class="seconda query">
+            <h4>2. Seleziona tutti gli ospiti che sono nati dopo il 1988</h4>
+            <p> <strong>SELECT</strong> <span>*</span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>WHERE <span>YEAR</span> </strong> <span>(`date_of_birth`) > 1988</span> </p>
+            <p> <strong>RISULTATI</strong>: 10 Ospiti rispecchiano questi requisiti </p>
+        </div>
+        <!--FINE SECONDA QUERY -->
+
+        <!-- TERZA QUERY  -->
+        <div class="terza query">
+            <h4>3. Seleziona tutti gli ospiti che hanno più di 20 anni (al momento dell'esecuzione della query).</h4>
+            <p> <strong>SELECT</strong> <span>*</span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>WHERE</strong> <span>`date_of_birth` < DATE_SUB(CURDATE(),<span>INTERVAL</span>20<span>YEAR</span>)</span> </p>
+            <p> <strong>RISULTATI</strong>: 24 Ospiti rispecchiano questi requisiti  </p>
+        </div>
+        <!-- FINE TERZA QUERY -->
+
+        <!-- QUARTA QUERY  -->
+        <div class="quarta query">
+            <h4>4. Seleziona tutti gli ospiti il cui nome inizia con la D.</h4>
+            <p> <strong>SELECT</strong> <span>*</span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>WHERE</strong> <span>`name` <span>LIKE</span> 'D%'</span> </p>
+            <p> <strong>RISULTATI</strong>: 4 Ospiti rispecchiano questi requisiti </p>
+        </div>
+        <!-- FINE QUARTA QUERY  -->
+
+        <!-- QUINTA QUERY -->
+        <div class="quinta query">
+            <h4>5. Calcolare il totale degli ospiti paganti.</h4>
+            <p>(Riferimente a quanti ospiti paganti ci sono)</p>
+            <p> <strong>SELECT</strong> <span><span>COUNT</span>(*)</span> </p>
+            <p> <strong>FROM</strong> <span>`paganti`</span> </p>
+            <p> <strong>RISULTATI</strong>: 30 Ospiti rispecchiano questi requisiti </p>
+            <p>(Riferimente al totale dei pagamenti)</p>
+            <p> <strong>SELECT</strong> <span><span>SUM</span>(price)</span> </p>
+            <p> <strong>FROM</strong> <span>`pagamenti`</span> </p>
+            <p> <strong>RISULTATI</strong>: €14533.00 Tot pagamenti </p>
+            <p>(Riferimente al totale degli ospiti che hanno pagato)</p>
+            <p> <strong>SELECT</strong> <span><span>COUNT</span>(*)</span> </p>
+            <p> <strong>FROM</strong> <span>`pagamenti`</span> </p>
+            <p> <strong>WHERE</strong> <span>`status` =  'accepted'</span> </p>
+            <p> <strong>RISULTATI</strong>: 10 ospiti rispecchiano questi requisiti </p>
+        </div>
+        <!-- FINE QUINTA QUERY -->
+
+        <!-- SESTA QUERY -->
+        <div class="sesta query">
+            <h4>6. Qual è il prezzo massimo pagato?</h4>
+            <p> <strong>SELECT</strong> <span><span>MAX</span>(price)</span> </p>
+            <p> <strong>FROM</strong> <span>`pagamenti`</span> </p>
+            <p> <strong>WHERE</strong> <span>`status` =  'accepted'</span> </p>
+            <p> <strong>RISULTATI</strong>: €869 E' il pagamento maggiore  </p>
+        </div>
+        <!-- FINE SESTA QUERY -->
+
+        <!-- SETTIMA QUERY -->
+        <div class="settima query">
+            <h4>7. Seleziona gli ospiti riconosciuti con patente e nati nel 1975.</h4>
+            <p> <strong>SELECT</strong> <span>*</span> </p>
+            <p> <strong>FROM</strong> <span>`ospiti`</span> </p>
+            <p> <strong>WHERE</strong> <span> `document_type` = 'Driver License' <span>AND YEAR</span>(`date_of_birth`) = 1975 </span> </p>
+            <p> <strong>RISULTATI</strong>: 1 Ospite rispecchia questi requisiti  </p>
+        </div>
+        <!-- FINE SETTIMA QUERY -->
+
+        <!-- OTTAVA QUERY -->
+        <div class="ottava query">
+            <h4>8. Quanti posti letto ha l'hotel in totale?</h4>
+            <p> <strong>SELECT</strong> <span><span>SUM</span>(beds)</span> </p>
+            <p> <strong>FROM</strong> <span>`stanze`</span> </p>
+            <p> <strong>RISULTATI</strong>: le stanze di questo hotel hanno un tot di 33 Letti  </p>
+        </div>
+        <!-- FINE OTTAVA QUERY -->
+
+    </main>
+    <!-- FINE INIZIO MAIN  -->
+
+    <!-- INIZIO FOOTER  -->
+    <footer>
+
+    </footer>
+    <!-- FINE FOOTER  -->
+
+</body>
+</html>
